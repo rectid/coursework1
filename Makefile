@@ -1,6 +1,6 @@
 SOURCES=$(wildcard src/*.c)
 OBJECTS := $(patsubst src/%.c,obj/%.o,$(SOURCES))
-CFLAGS = -g
+CFLAGS = -g -Wincompatible-pointer-types
 
 all: cw
 

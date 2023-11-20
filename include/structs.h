@@ -4,8 +4,11 @@
 
 #ifndef CW_STRUCTS_H
 #define CW_STRUCTS_H
+
+#include <wchar.h>
+
 typedef struct{
-    char* chars;
+    wchar_t* chars;
     int size;
 }Sentence;
 
@@ -15,7 +18,7 @@ typedef struct{
 }Text;
 
 typedef struct{
-    char* word;
+    wchar_t* chars;
     int* occurrences;
     int occurrencesSize;
 } Word;

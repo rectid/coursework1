@@ -13,48 +13,48 @@ Text getWithoutNums(Text text){
         Sentence tempSentence = text.sentences[i];
         Sentence newSentence;
         int newSentenceSize=0;
-        int newSentenceBuffer=tempSentence.size;
-        newSentence.chars = calloc(newSentenceBuffer,sizeof(char));
-        char* temp = strdup(tempSentence.chars);
-        char* word = strtok(temp," .,");
+        int newSentenceBuffer=tempSentence.size+1;
+        newSentence.chars = calloc(newSentenceBuffer,sizeof(wchar_t));
+        wchar_t* tokBuffer;
+        wchar_t * word = wcstok(wcsdup(tempSentence.chars),L" .,",&tokBuffer);
         int isNum = 1;
         int j=0;
         while (j<tempSentence.size) {
-            char tempChar = tempSentence.chars[j];
-            if(tempChar!=' '&&tempChar!=','&&tempChar!='.'){
+            wchar_t tempChar = tempSentence.chars[j];
+            if(tempChar!=L' '&&tempChar!=L','&&tempChar!=L'.'){
             if(word==NULL) break;
-            for(int k=0;k< strlen(word);k++){
-                if(!isdigit(word[k])){
+            for(int k=0;k< wcslen(word);k++){
+                if(!iswdigit(word[k])){
                     isNum=0;
                     break;
                 }
             }
 
-            int wordLength = strlen(word);
+            int wordLength = wcslen(word);
             if (!isNum){
                 newSentenceSize+= wordLength;
                 j+= wordLength;
                 if (newSentenceBuffer<=newSentenceSize){
                     newSentenceBuffer = newSentenceSize*2;
-                    newSentence.chars = realloc(newSentence.chars,sizeof(char)*newSentenceBuffer);
+                    newSentence.chars = realloc(newSentence.chars,sizeof(wchar_t)*newSentenceBuffer);
                 }
 
-                strcat(newSentence.chars,word);
+                wcscat(newSentence.chars,word);
             } else {
 
                 if(tempSentence.chars[j+wordLength]=='.'){
                     if(newSentence.chars[newSentenceSize-2]==',') memmove(&newSentence.chars[j-2],&tempSentence.chars[j+wordLength],1);
                     else memmove(&newSentence.chars[newSentenceSize-1],&tempSentence.chars[j+wordLength],1);
                 }
-                if(tempSentence.chars[j+wordLength]==','){
+                if(tempSentence.chars[j+wordLength]==L','){
                     j+=wordLength+2;
                 }
-                if(tempSentence.chars[j+wordLength]==' '){
+                if(tempSentence.chars[j+wordLength]==L' '){
                     j+=wordLength+1;
                 }
 
             }
-            word = strtok(NULL," .,");
+            word = wcstok(NULL,L" .,",&tokBuffer);
             isNum=1;
         } else {
                 newSentence.chars[newSentenceSize++]=tempChar;
@@ -64,7 +64,7 @@ Text getWithoutNums(Text text){
         }
         newText.sentences[newTextSize++]=newSentence;
         if (newTextBuffer<=newTextSize){
-            newTextBuffer = newTextSize+1;
+            newTextBuffer = newTextSize*2;
             newText.sentences = realloc(newText.sentences,sizeof(Sentence)*newTextBuffer);
         }
     }

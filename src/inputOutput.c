@@ -2,7 +2,13 @@
 // Created by rect on 17.11.2023.
 //
 
-#include "../include/IO.h"
+#include "../include/inputOutput.h"
+
+int getChoice(){
+    int userChoice;
+    wscanf(L"%d",&userChoice);
+    return userChoice;
+}
 
 Text getText(){
     Text text;
@@ -13,7 +19,7 @@ Text getText(){
         Sentence tempSentence = getSentence(&nCounter);
         int equalSentence=0;
         for (int i = 0; i < textSize; ++i) {
-            if(strcasecmp(tempSentence.chars,text.sentences[i].chars)==0){
+            if(wcscasecmp(tempSentence.chars,text.sentences[i].chars)==0){
                 equalSentence=1;
                 break;
             }
@@ -36,13 +42,13 @@ Text getText(){
 
 Sentence getSentence(int *nCounter){
     Sentence sentence;
-    sentence.chars = malloc(sizeof(char));
+    sentence.chars = malloc(sizeof(wchar_t));
     int sentenceSize = 0;
     int sentenceBuffer = 1;
-    char tempChar;
+    wchar_t tempChar;
     do{
-        tempChar = getchar();
-        if (tempChar=='\n') {
+        tempChar = getwchar();
+        if (tempChar==L'\n') {
             (*nCounter)++;
             if((*nCounter)==2){
                 break;
@@ -54,18 +60,18 @@ Sentence getSentence(int *nCounter){
 
         if(sentenceSize==sentenceBuffer){
             sentenceBuffer *= 2;
-            sentence.chars = realloc(sentence.chars, sizeof(char) * sentenceBuffer);
+            sentence.chars = realloc(sentence.chars, sizeof(wchar_t) * sentenceBuffer);
         }
 
-    } while (tempChar!='.');
-    sentence.chars[sentenceSize]='\0';
+    } while (tempChar!=L'.');
+    sentence.chars[sentenceSize]=L'\0';
     sentence.size=sentenceSize;
     return sentence;
 }
 
 void printText(Text text){
     for (int i = 0; i < text.size; i++) {
-        printf("%s\n", text.sentences[i].chars);
+        wprintf(L"%ls\n", text.sentences[i].chars);
     }
     printf("\n");
 }

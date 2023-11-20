@@ -4,11 +4,14 @@
 
 #ifndef CW_UPPERCASEWORDS_H
 #define CW_UPPERCASEWORDS_H
-#include <ctype.h>
-#include "structs.h"
-#include <stdlib.h>
+
 #include <string.h>
-#include <stdio.h>
+#include <wctype.h>
+#include <wchar.h>
+#include <stdlib.h>
+
+#include "structs.h"
+
 
 Text getUpperCaseWords(Text text);
 #endif //CW_UPPERCASEWORDS_H

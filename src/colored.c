@@ -2,56 +2,56 @@
 // Created by rect on 17.11.2023.
 //
 
-#include "../include/colorful.h"
+#include "../include/colored.h"
 
-Text colorful(Text text) {
+Text getColored(Text text) {
     Text coloredText;
     coloredText.sentences = malloc(sizeof(Sentence)*text.size);
     int coloredTextSize = 0;
     for (int i = 0; i < text.size; i++) {
         Sentence tempSentence = text.sentences[i];
-        char* temp = strdup(tempSentence.chars);
         Sentence newSentence;
         int newSentenceSize=0;
-        int newSentenceBuffer=tempSentence.size;
-        newSentence.chars = calloc(newSentenceBuffer,sizeof(char));
+        int newSentenceBuffer=tempSentence.size+1;
+        newSentence.chars = calloc(newSentenceBuffer,sizeof(wchar_t));
         int j =0;
-        char* word = strtok(temp," ,.");
+        wchar_t* tokBuffer;
+        wchar_t* word = wcstok(wcsdup(tempSentence.chars),L" ,.",&tokBuffer);
         while (j<tempSentence.size) {
-            char tempChar = tempSentence.chars[j];
+            wchar_t tempChar = tempSentence.chars[j];
 
             if(tempChar!=' '&&tempChar!=','&&tempChar!='.'){
-                int wordLength = strlen(word);
+                int wordLength = wcslen(word);
                 j+= wordLength;
                 int color = wordLength%4;
-                char* toCatWord = calloc(wordLength,wordLength*2);
+                wchar_t * toCatWord = calloc(wordLength, (wcslen(RED)*2+wordLength)*sizeof(wchar_t));
 
 
                 switch (color) {
                     case 0:
-                        strcat(toCatWord, RED);
+                        wcscat(toCatWord, RED);
                         break;
                     case 1:
-                        strcat(toCatWord, BLUE);
+                        wcscat(toCatWord, BLUE);
                         break;
                     case 2:
-                        strcat(toCatWord, GREEN);
+                        wcscat(toCatWord, GREEN);
                         break;
                     case 3:
-                        strcat(toCatWord, YELLOW);
+                        wcscat(toCatWord, YELLOW);
                         break;
                 }
-                strcat(toCatWord, word);
-                strcat(toCatWord, RESET);
+                wcscat(toCatWord, word);
+                wcscat(toCatWord, DEFAULT);
 
-                newSentenceSize+= strlen(toCatWord);
+                newSentenceSize+= wcslen(toCatWord);
                 if (newSentenceBuffer<=newSentenceSize){
-                    newSentenceBuffer = newSentenceSize*2;
-                    newSentence.chars = realloc(newSentence.chars,sizeof(char)*newSentenceBuffer);
+                    newSentenceBuffer = newSentenceSize*3;
+                    newSentence.chars = realloc(newSentence.chars,sizeof(wchar_t)*newSentenceBuffer);
                 }
 
-                strcat(newSentence.chars,toCatWord);
-                word = strtok(NULL, " ,.");
+                wcscat(newSentence.chars,toCatWord);
+                word = wcstok(NULL,L" ,.",&tokBuffer);
             } else {
                 newSentence.chars[newSentenceSize++]=tempChar;
                 j++;

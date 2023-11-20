@@ -8,21 +8,23 @@ int compare(const void *a, const void *b){
     Sentence* sentenceOne = (Sentence *) a;
     Sentence* sentenceTwo = (Sentence *) b;
 
-    char *lastWordOne = NULL;
-    char *tokenOne = strtok(strdup(sentenceOne->chars), " ,.");
+    wchar_t *lastWordOne = NULL;
+    wchar_t* tokBufferOne;
+    wchar_t *tokenOne = wcstok(wcsdup(sentenceOne->chars), L" ,.", &tokBufferOne);
     while (tokenOne != NULL) {
         lastWordOne = tokenOne;
-        tokenOne = strtok(NULL, " ,.");
+        tokenOne = wcstok(NULL, L" ,.", &tokBufferOne);
     }
 
-    char *lastWordTwo = NULL;
-    char *tokenTwo = strtok(strdup(sentenceTwo->chars), " ,.");
+    wchar_t *lastWordTwo = NULL;
+    wchar_t* tokBufferTwo;
+    wchar_t *tokenTwo = wcstok(wcsdup(sentenceTwo->chars), L" ,.", &tokBufferTwo);
     while (tokenTwo != NULL) {
         lastWordTwo = tokenTwo;
-        tokenTwo = strtok(NULL, " ,.");
+        tokenTwo = wcstok(NULL, L" ,.", &tokBufferTwo);
     }
 
-    return strlen(lastWordOne) - strlen(lastWordTwo);
+    return wcslen(lastWordOne) - wcslen(lastWordTwo);
 }
 
 Text getSorted(Text text){

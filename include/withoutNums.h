@@ -4,10 +4,13 @@
 
 #ifndef CW_WITHOUTNUMS_H
 #define CW_WITHOUTNUMS_H
-#include <ctype.h>
-#include "structs.h"
+
+#include <wchar.h>
 #include <stdlib.h>
+#include <wctype.h>
 #include <string.h>
-#include <stdio.h>
+
+#include "structs.h"
+
 Text getWithoutNums(Text text);
 #endif //CW_WITHOUTNUMS_H
