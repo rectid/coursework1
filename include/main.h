@@ -14,6 +14,7 @@
 #include "upperCaseWords.h"
 #include "sorted.h"
 #include "withoutNums.h"
+#include "withDupWords.h"
 
 
 #endif //CW_MAIN_H

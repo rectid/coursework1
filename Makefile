@@ -1,13 +1,13 @@
-SOURCES=$(wildcard src/*.c)
-OBJECTS := $(patsubst src/%.c,obj/%.o,$(SOURCES))
-CFLAGS = -g -Wincompatible-pointer-types
+SOURCES=$(wildcard sources/*.c)
+OBJECTS := $(patsubst sources/%.c,sources/%.o,$(SOURCES))
+CFLAGS = -g
 
 all: cw
 
 cw: $(OBJECTS)
-	gcc $(CFLAGS) -std=gnu99 $^ -o bin/cw
+	gcc $(CFLAGS) -std=gnu99 $^ -o cw
 
-obj/%.o : src/%.c
+sources/%.o : sources/%.c
 	gcc $(CFLAGS) -std=gnu99 -c $< -o $@
 
 
@@ -15,4 +15,5 @@ clean_objects:
 	rm -f $(OBJECTS)
 
 clean:
-	rm -rf obj/*.o bin/cw
+	rm -rf sources/*.o cw
+
