@@ -9,6 +9,7 @@
 #include <wchar.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wctype.h>
 
 #include "structs.h"
 
